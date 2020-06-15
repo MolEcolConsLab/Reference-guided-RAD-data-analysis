@@ -59,3 +59,5 @@ awk '{print $88 "\t" $1 "\t" $23 "\t" $27 "\t"$30 "\t"$44 "\t" $49 "\t" $52 "\t"
 sed -i 's/(//g' All_RAD_sort_filt_combined_flagstat_reformat.txt #-i changes it in the original file; could test sending to another outfile first
 sed -i 's/%//g' All_RAD_sort_filt_combined_flagstat_reformat.txt
 cat ../short_flagstat_headers All_RAD_sort_filt_combined_flagstat_reformat.txt >All_head_filt_flagstat_reformat.txt
+
+done
