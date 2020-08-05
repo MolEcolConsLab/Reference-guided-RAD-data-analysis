@@ -19,7 +19,7 @@ do
 	c6=$6 #extraction_type
 
 #run with just RA and RB files in different subfolders; run for RA, then edit accordingly and run for RB
-#run with echo to check is correct, then if all looks good remove and run without
+#run with echo to check is correct, then if all looks good remove and run without.
 echo mv RA/RAD-GTHI_RA_GG${c1}TGCAGG.fastq RA_renamed_files/RAD-GTHI_${c2}_${c3}_${c4}_RA.fastq
 
 #RAD-GTHI_RA_GGAACCGAGATGCAGG.fastq wA01_Hawaii_U_RA.fastq
