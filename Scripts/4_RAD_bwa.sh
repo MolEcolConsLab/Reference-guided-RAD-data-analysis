@@ -8,7 +8,7 @@
 #BSUB -e rad_bwa.err
 #BSUB -oo rad_bwa.log
 
-module load bwa/0.7.
+module load bwa/0.7.5a
 module load samtools/1.9
 bwa index /project/uma_lisa_komoroske/GT_genome/Cmyd.v1.1.fa
 mkdir ./samfiles
