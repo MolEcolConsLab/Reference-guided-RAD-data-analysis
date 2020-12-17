@@ -11,7 +11,7 @@
 module load bwa/0.7.5a
 module load samtools/1.9
 
-REF=project/uma_lisa_komoroske/GCA_903992535.1_mArvAmp1.1_genomic.fna #change this to be path to your reference genome file
+REF=project/uma_lisa_komoroske/path/to/ref #change this to be path to your reference genome file
 
 bwa index $REF
 
