@@ -94,7 +94,7 @@ CFS.ok<-subset(CFS,QC_cat!="failed")
 
 DNAconc<-read.csv("inputDNAconckey.csv") #this should specify the file that has the input DNA concentrations for your library prep per sample
 CFS.ok1<-merge(DNAconc,CFS.ok)#if you skpped above step, can just merge DNAconc with the mapped.comb.short dataframe
-CFS.ok1$concentration<-factor(CFS.ok1$concentration, levels=c("<=5","5","10","20","40","variable"))
+CFS.ok1$concentration<-factor(CFS.ok1$concentration, levels=c("<=50","<=75 & >=50","100"))# can also try skipping this and just plotting with all concentrations
 DNAbox<-ggplot(CFS.ok1, aes(x=concentration, y=prop)) +theme_bw()+
   geom_boxplot(colour="black", fill="red", alpha=0.7)  +
   stat_summary(fun.y=mean, geom="point", shape=5, size=4)+
