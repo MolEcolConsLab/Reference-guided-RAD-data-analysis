@@ -3,6 +3,10 @@
 
 # In part 2 of EDA, we are looking at mapping statistics and how the reads compare before and after removing
 # PCR duplicates
+# Inputs for this script are the All_head_flagstat_reformat.txt file generated immediately after the mapping step, and
+# All_head_filt_flagstat_reformat.txt generated after duplicate removal step
+# From this script, you should generate a csv file with statistics reporting percent reads mapped before and after removing PCR dups
+# You should also produce histograms of mapping reads and proportion of duplicates in reads
 
 #setup
 
@@ -13,42 +17,6 @@ library(ggplot2)
 library(tidyr)
 library(data.table)
 library(reshape2)
-#Multiplot Functions####
-multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  library(grid)
-  
-  # Make a list from the ... arguments and plotlist
-  plots <- c(list(...), plotlist)
-  
-  numPlots = length(plots)
-  
-  # If layout is NULL, then use 'cols' to determine layout
-  if (is.null(layout)) {
-    # Make the panel
-    # ncol: Number of columns of plots
-    # nrow: Number of rows needed, calculated from # of cols
-    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
-                     ncol = cols, nrow = ceiling(numPlots/cols))
-  }
-  
-  if (numPlots==1) {
-    print(plots[[1]])
-    
-  } else {
-    # Set up the page
-    grid.newpage()
-    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
-    
-    # Make each plot, in the correct location
-    for (i in 1:numPlots) {
-      # Get the i,j matrix positions of the regions that contain this subplot
-      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-      
-      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
-                                      layout.pos.col = matchidx$col))
-    }
-  }
-}
 
 
 ##### Read in files and reformat
@@ -81,26 +49,15 @@ names(mapped.comb.short) <- c("ID","plate","LABID","mpatch","year","well", "UF_t
 hist(mapped.comb.short$F_percent_reads_mapped)
 write.csv(mapped.comb.short,"../short_mapping_stats.csv") #change path to where you want your mapping stat file written to
 
-#add in QC category info from section I:
+######################add in QC category info from section I- OPTIONAL####################
 # you can do this step if you included your failed sampels during your mapping step, if not this can be skipped. Basically this just allows us to look at EDA with only qc-passed samples
-SRA1<-sample.reads.binRAshort[,c(1,5:9)] #this dataframe was generated in EDA part 1 script, which is upstream of this one. Can copy from that to get qc info.
-SRA1$platewell<-paste(SRA1$plate,SRA1$well)
-mapped.comb.short$platewell<-paste(mapped.comb.short$plate,mapped.comb.short$well)
-CFS<-merge(mapped.comb.short,SRA1,by="platewell")
-CFS.ok<-subset(CFS,QC_cat!="failed")
 
-#Input concentration matters, check effects of input concentration
-# To do this, you need the total input DNA for each well, either in its own sheet like below or as a column in your metadata sheet to pull in
 
-DNAconc<-read.csv("inputDNAconckey.csv") #this should specify the file that has the input DNA concentrations for your library prep per sample
-CFS.ok1<-merge(DNAconc,CFS.ok)#if you skpped above step, can just merge DNAconc with the mapped.comb.short dataframe
-CFS.ok1$concentration<-factor(CFS.ok1$concentration, levels=c("<=50","<=75 & >=50","100"))# can also try skipping this and just plotting with all concentrations
-DNAbox<-ggplot(CFS.ok1, aes(x=concentration, y=prop)) +theme_bw()+
-  geom_boxplot(colour="black", fill="red", alpha=0.7)  +
-  stat_summary(fun.y=mean, geom="point", shape=5, size=4)+
-  ylab("Proportion Filtered Mapped/Sequenced Fragments") +xlab("DNA Input Original Concentration (ng/ul)")
+#SRA1<-sample.reads.binRAshort[,c(1,5:9)] #this dataframe was generated in EDA part 1 script, which is upstream of this one. Can copy from that to get qc info.
+#SRA1$platewell<-paste(SRA1$plate,SRA1$well)
+#mapped.comb.short$platewell<-paste(mapped.comb.short$plate,mapped.comb.short$well)
+#CFS<-merge(mapped.comb.short,SRA1,by="platewell")
+#CFS.ok<-subset(CFS,QC_cat!="failed")
 
-pdf("prop filtered mapped-seq frag by DNA input.pdf", width=6, height=6)
-dev.off()
 
 
