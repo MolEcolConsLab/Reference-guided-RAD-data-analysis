@@ -2,4 +2,4 @@
 
 Analysis of RAD data using a reference.
 
-Workflow for analysis is [here](https://gist.github.com/jlastoll/7f6437fae8df047bd75d796515eb9084) 
+Workflow for analysis is [here](<script src="https://gist.github.com/lkomoro/86403350ba985ee5456c54377c316398.js"></script>) 
