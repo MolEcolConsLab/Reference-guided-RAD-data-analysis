@@ -5,7 +5,7 @@ $file = $ARGV[0];
 open(FILE, "<$file") or die;
 
 # Variables to tune
-$def_length = 134	
+$def_length = 134;	
 $nInd_cutoff = 50; #min # of individuals
 
 # Start and stop will be based on position of chromosome
@@ -55,7 +55,7 @@ while (<FILE>) {	#Read each line
 	} elsif ($nInd <= $nInd_cutoff && $start != -1) { #If this position is breaks the frame (positions in a row that have a min # of individuals)
 		$ave = $ave/$length;	#calculate the average
 
-		if ($length == def_length && $scaff1 eq $scaff2 && ($stop - $start + 1) == def_length) { # if length of frame is the default/wanted length, verified manually with stop-start +1, and on the same chromosome
+		if ($length == $def_length && $scaff1 eq $scaff2 && ($stop - $start + 1) == $def_length) { # if length of frame is the default/wanted length, verified manually with stop-start +1, and on the same chromosome
 			print "$scaff1\t$start\t$scaff2\t$stop\t$length\t$ave\n";			 # then print the: chromosome_name	start_position  	chromosome_name	    stop_position   length_of_frame (should be default length)    average_number_of_individuals_sequenced
 		}
 
